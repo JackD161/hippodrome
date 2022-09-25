@@ -2,14 +2,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-import org.mockito.exceptions.base.MockitoException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mockStatic;
 
 public class HorseTest {
-    // конструктор
 
     //Проверить, что при передаче в конструктор первым параметром null, будет выброшено IllegalArgumentException.
     //Для этого нужно воспользоваться методом assertThrows;
@@ -62,6 +59,7 @@ public class HorseTest {
     //--------------combination-----------------------
     //метод getDistance
     //Проверить, что метод возвращает число, которое было передано третьим параметром в конструктор;
+    //--------------combination-----------------------
     //Проверить, что метод возвращает ноль, если объект был создан с помощью конструктора с двумя параметрами;
     @Test
     public void getNameGetSpeedGetDistance() {
@@ -81,6 +79,19 @@ public class HorseTest {
         try (MockedStatic<Horse> mockedStatic = mockStatic(Horse.class)){
             new Horse("horse", 3,4).move();
             mockedStatic.verify(() -> Horse.getRandomDouble(0.2, 0.9));
+        }
+    }
+
+    //Проверить, что метод присваивает дистанции значение высчитанное по формуле: distance + speed * getRandomDouble(0.2, 0.9).
+    //Для этого нужно замокать getRandomDouble, чтобы он возвращал определенные значения, которые нужно задать параметризовав тест.
+    @ParameterizedTest
+    @ValueSource(doubles = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 7.7})
+    public void verifyMoveMethod(double value) {
+        try(MockedStatic<Horse> mockedStatic = mockStatic(Horse.class)) {
+            Horse horse = new Horse("horse", 3, 4);
+            mockedStatic.when(() -> Horse.getRandomDouble(0.2, 0.9)).thenReturn(value);
+            horse.move();
+            assertEquals(4 + 3 * value, horse.getDistance());
         }
     }
 }
