@@ -2,7 +2,7 @@
 <Configuration status="ERROR">
     <Appenders>
         <RollingFile name="LogToFile" fileName="logs/hippodrome.log"
-                     filePattern="log/hippodrome.%d{yyyy-mm-dd}.log"
+                     filePattern="logs/hippodrome.%d{yyyy-mm-dd}.log"
                      ignoreExceptions="false">
             <PatternLayout pattern="%d %-5p %c: %m%n"/>
             <TimeBasedTriggeringPolicy/>

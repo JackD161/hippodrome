@@ -29,6 +29,8 @@ public class Main {
 
         String winnerName = hippodrome.getWinner().getName();
         System.out.println("Победил " + winnerName + "!");
+        //После вывода информации о победители, добавить в лог запись вида: 2022-05-31 17:05:46,963 INFO Main: Окончание скачек. Победитель: Вишня
+        logger.info("Окончание скачек. Победитель: {}", hippodrome.getWinner().getName());
     }
 
     private static void watch(Hippodrome hippodrome) throws Exception {
